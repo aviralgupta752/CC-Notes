@@ -1,0 +1,738 @@
+                                                    NOTES
+==================================================================================================================================
+==> BINARY TREE
+    >> To iterate through a binary tree and return the avg of numbers at the same level.
+        queue<TreeNode*> q;
+        q.push(root);
+        while(!q.empty())            
+        {
+            double temp = 0;
+            size = q.size();
+            for(i=0; i<size; i++)
+            {
+                TreeNode* curr = q.front();
+                q.pop();
+                if(curr->left)
+                    q.push(curr->left);
+                if(curr->right)
+                    q.push(curr->right);
+                temp += curr->val;
+            }
+            ans.push_back((double)temp/size);
+        }
+
+==> unordered_set<string> s(words.begin(), words.end());    //To copy the elements of the vector words in the set.
+==> s.substr(i): substring from index i to the end.
+==> vector<int>::Iterator i;
+==> bitset<32> a;
+    a = bitset<32>(nums[i]);
+
+==> To find the index of an element in a map:
+        map.find(fB) != map.end();
+
+==> BINARY SEARCH TREE: A binary search tree is a tree such that the left elements are less than the root and the right elements are greater than it.        
+
+==> Moore’s Voting Algorithm to find majority algorithm
+    1. Consider first element as the majority index.
+    2. Run a loop from index 1 to n, and check if the element is equal to nums[i], if it is increment count else decrement count. If at any point count is equal to 0, that index is the majority element.
+    int findCandidate(int a[], int size)
+    {
+        int maj_index = 0, count = 1;
+        for (int i = 1; i < size; i++) {
+            if (a[maj_index] == a[i])
+                count++;
+            else
+                count--;
+            if (count == 0) {
+                maj_index = i;
+                count = 1;
+            }
+        }
+        return a[maj_index];
+    }
+        
+==> To find if a number is a power of 2 or not. ceil(log2(x)) == floor(log2(x))
+
+==> Two Pointers Method
+    1. To find two numbers such that their sum is equal to the target.
+        int lo=0, hi=a.size()-1, mid;
+        while(lo <= hi)
+        {
+            if(a[lo] + a[hi] == target)
+            {
+                ans.push_back(lo+1);    ans.push_back(hi+1);
+                break;
+            }
+            else if(a[lo] + a[hi] > target)
+                hi -= 1;
+            else
+                lo += 1;
+        }
+
+==>	Whenever there is a question related to neighbors, use two loops, one to iterate in forward direction and the other to iterate in backward direction.
+
+==> LOWEST COMMON ANCESTOR
+	Statement: Given a binary tree root, and integers a and b, find the value of the lowest node that has a and b as descendants. A node can be a descendant of itself.
+	int solve(Tree* root, int a, int b)
+	{
+		if(root == NULL)
+			return -1;
+		if(root->val == a || root->val == b)
+			return root->val;
+
+		int l = solve(root->left, a, b);
+		int r = solve(root->right, a, b);
+
+		if(l == -1 && r == -1)
+			return root->val;
+
+		return (l == -1)?(r:l);
+	}
+
+==> AND OPERATION FOR A RANGE
+    1) Find position of Most Significant Bit (MSB) in both numbers. 
+    2) If positions of MSB are different, then result is 0. 
+    3) If positions are same. Let positions be msb_p. 
+    ……a) We add 2^msb_p to result. 
+    ……b) We subtract 2^msb_p from x and y, 
+    ……c) Repeat steps 1, 2 and 3 for new values of x and y.
+    #define ll long long
+    int msb(ll n)
+    {
+        int msb_p = -1;
+        while(n) {
+            n = n>>1;
+            msb_p++;
+        }
+        return msb_p;
+    }
+    int solve(int x, int y) {
+        ll res = 0;
+        while(x && y)
+        {
+            int a = msb(x);
+            int b = msb(y);
+            if(a != b)
+                break;
+            else if(a == b)
+            {
+                ll ms = 1<<a;
+                res += ms;
+                x -= ms;
+                y -= ms;
+            }
+        }
+        return res;
+    }
+
+==> copy(s.begin(), s.end(), v.begin());
+==> a.insert(a.end(), b.begin(), b.end());
+
+==> PALINDROMIC SUBSTRINGS
+    int func(string& s, int j, int k)
+    {
+        int c=0, n=s.size();
+        for(;j>=0 && k<n; --j, ++k)
+        {
+            if(s[j]!=s[k])
+                break;
+            ++c;
+        }
+        return c;
+    }
+    int solve(string s) {
+        int n=s.size(), c=0;
+        for(int i=0; i<n; i++){
+            c+=func(s, i-1, i+1);
+            c+=func(s, i, i+1);
+        }
+        return c+n;
+    }
+
+==> CYCLIC GRAPH
+    bool hascycle(v, vis, s)
+    {
+        if(vis[v] == false)
+        {
+            vis[v]=1;
+            s[v]=1;
+            for(auto x: g[v])
+            {
+                if(!vis[x] and hascycle(x, vis, s))
+                    return true;
+                else if(s[x])
+                    return true;
+            }
+        }
+        s[v] = false;
+        return false;
+    }
+    vector<int> vis(n), s(n);
+    for(int i=0; i<n; i++)
+        hascycle(i, vis, s);
+
+==> NUMBER OF SUBARRAYS WITH SUM = K
+    unordered_map<int, int> m;
+    s=0
+    for(int i=0; i<nums.size(); i++)
+        s+=nums[i];
+        if(s==k)
+            ans++;
+        if(m.find(s-k) != m.end())
+            ans+=m[s-k];
+        m[s]++;
+
+==> DIJKSTRA ALGO
+    g[u].push_back({v,w});
+    typedef pair<int, int> p;
+    priority_queue<p, vector<p>, greater<p>> q;
+    vector<int> d(n, INT_MAX);
+    q.push(src);
+    d[src]=0;
+    while(!q.empty())
+        int u=q.top().second;
+        q.pop();
+        for(auto x: g[u])
+            int v=x.first, w=x.second;
+            if(d[v]>d[u]+w)
+                d[v]=d[u]+w;
+                q.push({d[v], v});
+
+
+==> DEQUE
+    deque<int> q;
+    q.push_back();      q.push_front();
+    q.pop_back();       q.pop_front();
+    q.front();              q.back();
+
+==> SEARCH IN ROTATED SORTED ARRAY
+    int search(vector<int> &A, int B) {
+        int n=A.size();
+        int lo=0, hi=n-1;
+        while(lo<=hi){
+            int mid=lo+(hi-lo)/2;
+            if(A[mid]==B)
+                return mid;
+
+            //LEFT SUBARRAY IS SORTED
+            if(A[mid]>=A[lo]){
+                if(B>=A[lo] and B<A[mid])
+                    hi=mid-1;
+                else
+                    lo=mid+1;
+            }
+            //RIGHT SUBARRAY IS SORTED
+            else{
+                if(B>A[mid] and B<=A[hi])
+                    lo=mid+1;
+                else
+                    hi=mid-1;
+            }
+        }
+        return -1;
+    }
+
+==> A/B USING BIT MANUPLATION
+    q=0, t=0
+    for(int i=31; i>=0; i--){
+        if(t+B<<i <= A){
+            t+=B<<i;
+            q |= 1<<i;
+        }
+    }
+
+==> TO DETECT STRONGLY CONNECTED COMPONENTS
+    1. Run DFS on graph and store the nodes
+    2. Reverse the graph
+    3. Run DFS from the stored nodes.
+    4. Each different component is the answer.
+
+==> MAXIMUM SUM TRIPLET
+    nums[i]<nums[j]<nums[k]
+    0<=i<j<k<N
+    1. Create maximum suffix reverse array.
+    2. For a index i insert all the values in a set and do binarysearch for finding a smaller number than nums[i].
+
+    int getLowValue(set<int>& lowValue, int& n)
+    {
+        auto it = lowValue.lower_bound(n);
+        --it;
+        return (*it);
+    }
+    set<int> lowValue;
+    lowValue.insert(INT_MIN);
+    for (int i = 0; i < n - 1; ++i) {
+        if (maxSuffArr[i + 1] > arr[i]) {
+            ans = max(ans, getLowValue(lowValue, arr[i]) + arr[i] + maxSuffArr[i + 1]);
+ 
+            lowValue.insert(arr[i]);
+        }
+    }
+    return ans;
+
+==> FACTORIAL
+    fib[n] = (fib((n+1)/2) * fib(n/2) + fib((n-1)/2)*fib((n-2)/2))%cc
+
+==> NEXT SIMILAR NUMBER
+    1. Find the first index from the right s.t A[i]<A[i+1]
+    2. Swap this number with the smallest number greater than A[i].
+        int x=A[i], s=i+1;
+        for(int j=i+2; j<n; j++){
+            if(A[j]<A[s] and A[j]>x){
+                s=j;
+            }
+        }
+    3. Sort the array from i+1 to end.
+
+==> UNION FIND DS
+    int ufind(int s, vector<int>& pa){
+        if(pa[s]!=s){
+            pa[s]=ufind(pa[s], pa);
+        }
+        return pa[s];
+    }
+    string solve(string a, string b, string t) {
+        vector<int> pa(26,0);
+        iota(pa.begin(), pa.end(), 0);
+        int n=a.size();
+        for(int i=0; i<n; i++){
+            int p1=ufind(a[i]-'a', pa);
+            int p2=ufind(b[i]-'a', pa);
+            if(p1<p2){
+                pa[p2]=p1;
+            }
+            else if(p2<p1)
+                pa[p1]=p2;
+        }
+        for(int i=0; i<t.size(); i++){
+            if(pa[t[i]-'a']==-1)
+                continue;
+            t[i]=ufind(t[i]-'a', pa)+'a';
+        }
+        return t;
+    }
+
+
+    int solve(vector<int>& a, vector<int>& b) {
+        sort(a.begin(), a.end());
+        sort(b.begin(), b.end());
+        int ans = 0;
+        int j = a.size()-1;
+        for(int i = j ; i >=0 ; i--){
+            if(a[j] > b[i]){
+                ans+=1;
+                j-=1;
+            }
+        }
+        return ans;
+    }
+
+==> SOLVE SUDOKU
+    1. Find i,j for which b[i][j]=0;
+    2. If found, place the values from 1-9 if it is a safe square, else, return true.
+    3. Backtrace on the board again.
+
+    func(b){
+        i,j s.t. b[i][j]=0;
+        for i: 1-9
+        {
+            if(safe(i,j))
+                b[i][j]=i
+                if(func(b)==1)
+                    return 1;
+                b[i][j]=0
+        }
+    }
+
+==> SLIDING WINDOW MAX
+    deque<int> q;
+    1. Push first k indexes in the queue s.t. all smaller elements to the left of an index are popped off.
+        for(int i=0; i<k; i++){
+            while(!q.empty() and nums[i]>=nums[q.back()])
+                q.pop_back();
+            q.push_back(i);
+        }
+    2. Add elements in similar way and remove elements that are not in the window.
+        for(int i=k; i<n; i++){
+            ans.push_back(nums[q.front()]);
+            //Remove elements not in the window
+            while(!q.empty() and q.front()<=i-k)
+                q.pop_front();
+
+            while(!q.empty() and nums[i]>=nums[q.back()])
+                q.pop_back();
+            q.push_back(i);
+        }
+    3. return ans;
+
+==> ALMOST SAME STRING
+    You are given a list of lowercase alphabet strings words where each string is of the same length. Return whether there's two strings that differ only in one index.
+    unordered_set<string> data;
+    for (auto &n: words) {
+        for (int i = 0; i < (int)n.size(); ++ i) {
+            string v = n.substr(0, i) + "*" + n.substr(i + 1);
+            if (data.count(v)) 
+                return true;
+            data.insert(v);
+        }
+    }
+    return false;
+
+==> LAMBDA FUNCTION:
+    auto cmp = [&](int a,int b)-> bool {}
+
+==> DISTINCT SUBSEQUENCES
+    Statement: Given a string consisting of lowercase letters, find all distinct subsequences of the string.
+    1. Dp vector of size n+1, which gives total number of subsequences.
+    2. dp[0]=1 as empty string is also a subsequence.
+    3. dp[i]=2*dp[i-1] and to delete duplicate sequences, dp[i]-=dp[last[s[i-1]-'a']]
+
+    CODE:
+    dp[0]=1;
+    for(int i=1; i<=n; i++){
+        int x=s[i]-'a';
+        dp[i]=2*dp[i-1];
+        if(last[x]>=0){
+            dp[i]-=dp[last[x]];
+        }
+        last[x]=i-1;
+    }
+    return dp[n];
+
+==> LONGEST INCREASING SUBSEQUENCE (N LOGN)
+    int solve(vector<int>& nums){
+        vector<int> tail(n);
+        tail[0]=nums[0];
+        int l=1;
+        for(int i=1; i<n; i++){
+            auto it=lower_bound(tail.begin(), tail.begin()+l, nums[i]);
+            if(it==tail.begin()+l)
+                tail[l++]=nums[i];
+            else
+                *it=nums[i];
+        }
+        return l;
+    }
+
+==> RETURN NODE SUCH THAT THE SEQUENCE OF NODE IS [n-1, 0, n-2, ...]
+    1. Use slow and fast pointers to get the middle node.
+    2. Reverse the 2nd half of the list.
+    3. Merge the two lists.
+
+==> POLICY BASED DATA STRUCTURE
+    1. ORDERED SET
+        It is a PBDS in g++ that keeps the unique elements in sorted order. It has all the operations as performed by the set data structure in log(n) time.
+            a) order_of_key(k): Number of items strictly smaller than k.
+            b) find_by_order(k): k-th element in a set (0-indexed).
+
+        REQUIRED FILES:
+            #include <ext/pb_ds/assoc_container.hpp>
+            #include <ext/pb_ds/tree_policy.hpp>
+            using namespace __gnu_pbds;
+            #define set tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update>
+            
+==> AREA OF HISTOGRAM
+    STATEMENT: find the largest rectangular area possible in a given histogram.
+    1. To find the largest area, elements from the array are pushed into the stack until an element smaller than the top element is found.
+    2. Top element is popped. Now, for the popped element, we calculate area as el*(distance of smaller element to the right)*(distance of smaller element to the left)
+
+    while(i<n){
+        if(s.empty() or nums[s.top()]<nums[i]){
+            s.push(i++);
+        }
+        else{
+            int top=s.top();
+            s.pop();
+            l=(s.empty()?i:i - s.top()-1);
+            area=max(ans, nums[top]*l);
+        }
+    }
+    while(!s.empty()){
+        int top=s.top();
+        s.pop();
+        l=(s.empty()?i:i - s.top()-1);
+        area=max(ans, nums[top]*l);
+    }
+
+==> EULERIAN PATH
+    A path that goes exactly once through each edge of the graph.
+    An Eulerian Circuit is an E-path that starts and ends at the same node.
+    An undirected graph has an Eulerian path exactly when all the edges belong to the same connected component and:
+        1. the degree of each node is even or
+        2. the degree of exactly two nodes is odd, and the degree of all other nodes is even.
+
+    In a directed graph, we focus on indegrees and outdegrees of the nodes. A directed graph contains an Eulerian path exactly when all the edges belong to the same connected component and
+        1. in each node, the indegree equals the outdegree, or
+        2. in one node, the indegree is one larger than the outdegree, in another node, the outdegree is one larger than the indegree, and in all other nodes, the indegree equals the outdegree
+
+==> RIGHTMOST BIT
+    x&(-x)
+    Remove rightmost bit x-(x&(-x))
+
+==> PARSE TERNARY EXPRESSION
+    Given a string s representing a ternary expression with only tokens being "true", "false", "?", and ":", evaluate the expression.
+
+    1. Convert the string to a simpler expression.
+        vector<char> v;
+        for(auto& x: s){
+            if(x=='?' or x==':' or x=='t' or x=='f'){
+                v.push_back(x);
+            }
+        }
+
+    2. Start from the end of the vector
+        stack<bool> st;
+        while(i<n){
+            if(v[i]=='t' or v[i]=='f'){
+                st.push((v[i]=='t')?1:0);
+            }
+            else if(v[i]==':'){
+                i++;
+                continue;
+            }
+            else{
+                i++;
+                bool ans;
+                if(v[i]=='t'){
+                    ans=st.top();
+                    st.pop();
+                    st.pop();
+                }
+                else{
+                    st.pop();
+                    ans=st.top();
+                    st.pop();
+                }
+                st.push(ans);
+            }
+            i++;
+        }
+        return st.top();
+
+==> SEGMENT TREE
+    1. BUILD
+        vector<int> tree[4*n];
+        void build(vector<int>& nums, int s, int e, int node){
+            if(s==e){
+                tree[node]=nums[s];
+            }
+            int mid=(s+e)/2;
+            build(nums, s, mid, 2*node);
+            build(nums, mid+1, e, 2*node+1);
+            tree[node]=tree[node*2]+tree[node*2+1];
+        }
+        build(nums, 0, n-1, 0);
+
+    2. UPDATE
+        void update(int node, int s, int e, int i, int val, vector<int>& nums){
+            if(s==e){
+                nums[i]+=val;
+                tree[node]+=val;
+            }
+            int mid=(s+e)/2;
+            if(s<=i and i<=mid){
+                update(2*node, s, mid, i, val, nums);
+            }
+            else{
+                update(2*node+1, mid+1, e, i, val, nums);
+            }
+            tree[node]=tree[node*2]+tree[node*2+1];
+        }
+
+    3. RANGE SUM
+        int sum(int node, int s, int e, int l, int r){
+            if(l>e or r<s){
+                return 0;
+            }
+            else if(l<=s and r>=e){
+                return tree[node];
+            }
+            else{
+                int mid=(s+e)/2;
+                int s1=sum(2*node, s, mid, l, r);
+                int s2=sum(2*node+1, mid+1, e, l, r);
+                return s1+s2;
+            }
+        }
+
+==> ADJACENT SWAPS TO GROUP ONES
+    You are given a string s consisting of 0s and 1s, and you can swap any two adjacent characters. Return the minimum number of swaps needed to group all 1s together.
+
+    1. The idea is to move all the ones to the centermost one.
+        vector<int> v;
+        for(int i=0; i<n; i++){
+            if(s[i]=='1')
+                v.push_back(i);
+        }
+        int mid=(int)v.size()/2;
+
+    2. Now, for each index of 1, add abs(v[mid]-v[i]) to the answer and subtract number of ones between them i.e. abs(i-mid).
+        int ans=0;
+        for(int i=0; i<v.size(); i++){
+            ans+=abs(v[mid]-v[i])-abs(i-mid);
+        }
+
+==> SHORTEST WINDOW SUBSTRING IN ORDER
+    1. Make a graph containing indexes of all the characters
+        vector<vector<int>> g(26);
+        int n=s.size();
+        for(int i=0; i<n; i++){
+            g[s[i]-'a'].push_back(i);
+        }
+    2. Now, for every index of 'a' check if we can reach 'z' from there. 
+        int ans=n;
+        for(int i=0; i<g[0].size(); i++){
+            int st=g[0][i], next=g[0][i], curr=1;
+            while(curr!=26){
+                auto it=upper_bound(g[curr].begin(), g[curr].end(), next)-g[curr].begin();
+                if(it==g[curr].size()){
+                    break;
+                }
+                next=g[curr][it];
+                curr+=1;
+            }
+            if(curr==26){
+                ans=min(ans, next-st+1);
+            }
+        }
+        return ans;
+
+    ==> DP SOLUTION
+        The idea here is that, we let dp[i][j] = k denote that in substring S(0…i), there exists a subsequence corresponding to T(0…j) starting at index k of S.
+
+        string minWindow(string S, string T) {
+        int s = S.size();
+        int t = T.size();
+        vector<vector<int>> dp(s, vector<int>(t, -1));
+        for(int i = 0; i < s; i++) {
+            if(S[i] == T[0]) {
+                dp[i][0] = i;
+            } 
+            else {
+                if(i != 0) {
+                    dp[i][0] = dp[i-1][0];
+                }
+            }
+        }
+        for(int i = 1; i < s; i++) {
+            for(int j = 1; j < t; j++) {
+                if(S[i] == T[j]) {
+                    dp[i][j] = dp[i-1][j-1];
+                } else {
+                    dp[i][j] = dp[i-1][j];
+                }
+            }
+        }
+        int begin = -1, length = INT_MAX;
+        for(int i = 0; i < s; i++) {
+            int index = dp[i][t-1];
+            if(index != -1) {
+                int curLength = i - index + 1;
+                if(curLength < length) {
+                    begin = index;
+                    length = curLength;
+                }
+            }
+        }
+        if(begin == -1)
+            return "";
+        return s.substr(begin, length);
+    }
+
+==> CIRCULAR SUBSEQUENCE:
+    Add nums to nums i.e. nums += nums
+    
+==> QUICKSORT: 
+    quicksort(arr[], lo, hi){
+        if(lo<hi){
+            pi=partition(arr, lo, hi);
+            quicksort(arr, lo, pi-1);
+            quicksort(arr, pi+1, hi);
+        }
+    }
+
+    partition(arr[], lo, hi){
+        pivot=arr[hi]
+        i=lo-1
+        for(int j=lo; j<=hi-1; j++){
+            if(arr[j]<pivot){
+                i++;
+                swap(arr[i], arr[j]);
+            }
+        }
+        swap(arr[i+1], arr[hi])
+        return i+1;
+    }
+
+
+==> KMP string matching
+    bool solve(string pat, string text){
+        int m=pat.size(), n=text.size();
+        if(m>n){
+            return 0;
+        }
+
+        vector<int> lps(m);
+        int len=0;
+        lps[0]=0;
+
+        int i=1;
+        while(i<m){
+            if(pat[i]==pat[len]){
+                len++;
+                lps[i]=len;
+                i++;
+            }
+            else{
+                if(len){
+                    len=lps[len-1];
+                }
+                else{
+                    lps[i]=0;
+                    i++;
+                }
+            }
+        }
+
+        int i=0, j=0;
+        while(i<n){
+            if(pat[j]==txt[i]){
+                j++;
+                i++;
+            }
+            if(j==m){
+                cout<<"Found pattern at index "<<i-j<<endl;
+                j=lps[j-1];
+            }
+            else if(i<n and pat[j]!=txt[i]){
+                if(j!=0){
+                    j=lps[j-1];
+                }
+                else{
+                    i+=1;
+                }
+            }
+        }
+    }   
+
+==> COUNT OF SUBMATRIX WITH SUM DIVISIBLE BY 'K' IN A GIVEN MATRIX
+    1. Fix left and right column and calculate sum for each row, therefore we will get a 1D matrix to find sum divisble by 'k'.
+    2. Iterate on left and right
+
+    for(int l=0; l<n; l++)
+    {
+        vector<int> temp(m);
+        for(int r=l; r<n; r++)
+        {
+            for(int i=0; i<n; i++)
+            {
+                temp[i]+=mat[i][r];
+            }
+            ans+=solve(temp, n, k);
+        }
+    }
+
+    int solve(temp, n, k){
+        // Function for sum divisble by k.
+    }
+
