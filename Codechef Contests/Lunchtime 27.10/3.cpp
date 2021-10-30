@@ -9,12 +9,29 @@ int32_t main(){
 	cin>>t;
 	while(t--){
 		int n, v;
-		cin>>n>>v;
-		if(v>=n-1){
-			cout<<n*(n-1)/2<<" "<<n-1<<endl;
+		cin>>n>>k;
+		vector<int> nums(n*n);
+		for(int i=0; i<n; i++){
+			for(int j=0; j<n; j++){
+				cin>>nums[n*i+j];
+			}
 		}
-		else{
-			cout<<v-1+(n-v)*(n-v+1)/2<<endl;
+		sort(nums.begin(), nums.end());
+		vector<int> cum=nums;
+		for(int i=1; i<n*n; i++){
+			cum[i]+=cum[i-1];
 		}
+		int i=n*2, ans=-1;
+		// if(n%2==0){
+			for(; i<n*n-2*n; i++){
+				if(k<=cum[i+n-1]-cum[i-1]){
+					ans=nums[i];
+				}
+			}
+		// }
+		// else{
+
+		// }
+			cout<<ans<<endl;
 	}
 }
