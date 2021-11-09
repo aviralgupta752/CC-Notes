@@ -736,3 +736,14 @@
         // Function for sum divisble by k.
     }
 
+==> SUBMASK ENUMERATION
+    Technique to generate submasks of a given mask.
+    Ex:- Submasks of 1101 are:
+        1101, 1011, 0111, 1111, 1110, 1010, 0110, 1100, 1000, 0000
+    
+    int s = m;
+    while (s > 0) {
+        s = (s-1) & m;
+    }
+
+
