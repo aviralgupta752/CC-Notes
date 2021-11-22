@@ -7,6 +7,9 @@ int32_t main(){
     int t;
     cin>>t;
     while(t--){
+        int n,x,v,y,b;
+        
+        vector<int> nums(n);
 
     }
 }
