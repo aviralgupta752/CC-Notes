@@ -9,8 +9,10 @@ int32_t main(){
     while(t--){
         int n;
         cin>>n;
-        
-        vector<int> nums(n);
-
+        cout<<n<<" ";
+        for(int i=1; i<n; i++){
+            cout<<i<<" ";
+        }
+        cout<<endl;
     }
 }

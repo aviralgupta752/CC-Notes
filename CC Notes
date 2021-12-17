@@ -83,10 +83,10 @@
 		int l = solve(root->left, a, b);
 		int r = solve(root->right, a, b);
 
-		if(l == -1 && r == -1)
+		if(l != -1 && r != -1)
 			return root->val;
 
-		return (l == -1)?(r:l);
+		return (l == -1)?r:l;
 	}
 
 ==> AND OPERATION FOR A RANGE

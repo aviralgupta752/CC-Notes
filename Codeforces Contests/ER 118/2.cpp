@@ -9,8 +9,14 @@ int32_t main(){
     while(t--){
         int n;
         cin>>n;
+        int a[n];
+        for(int i=0;i<n;i++)
+            cin>>a[i];
         
-        vector<int> nums(n);
-
+        sort(a, a+n);
+        int k=n-1;
+        for(int i=0; i<n/2; i++){
+            cout<<a[k--]<<" "<<a[0]<<"\n";
+        }
     }
 }

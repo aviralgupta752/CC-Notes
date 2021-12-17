@@ -9,8 +9,9 @@ int32_t main(){
     while(t--){
         int n;
         cin>>n;
-        
-        vector<int> nums(n);
-
+        for(int i=0; i<n; i++){
+            cout<<2*i+1<<" ";
+        }
+        cout<<endl;
     }
 }
