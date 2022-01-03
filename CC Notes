@@ -746,4 +746,69 @@
         s = (s-1) & m;
     }
 
+==> INVERSION COUNT
+    Using mergesort approach count the total number of inversions.
+    long long int mergeSort(long long arr[], long long int lo, long long int hi){
+        long long int mid=(lo+hi)/2;
+        if(lo>=hi){
+            return 0;
+        }
+        long long int l=mergeSort(arr, lo, mid);
+        long long int r=mergeSort(arr, mid+1, hi);
+        long long int lr=merge(arr, lo, mid, mid+1, hi);
+        return l+r+lr;
+    }
+    long long int merge(long long arr[], long long al, long long ar, long long bl, long long br){
+        long long k=0, ans=0;
+        long long res[ar-al+br-bl+2];
+        long long i=al, j=bl;
+        while(i<=ar and j<=br){
+            if(arr[i] > arr[j]){
+                res[k++]=arr[j++];
+                ans+=ar-i+1;
+            }
+            else{
+                res[k++]=arr[i++];
+            }
+        }
+        while(i<=ar){
+            res[k++]=arr[i++];
+        }
+        while(j<=br){
+            res[k++]=arr[j++];
+        }
+        
+        for(int x=al; x<=br; x++){
+            arr[x]=res[x-al];
+        }
+        return ans;
+    }
+    long long int inversionCount(long long arr[], long long n)
+    {
+        return mergeSort(arr, 0LL, n-1);
+    }
 
+==> LEVEL ORDER TRAVERSAL USING RECURSION
+    void solve(Tree* root){
+        int h=height(root);
+        for(int i=1; i<=h; i++){
+            printlevel(root, i);
+        }
+    }
+    printlevel(Tree* root, int i){
+        if(!root){
+            return 
+        }
+        if(i==1){
+            cout<<root->val;
+        }
+        else{
+            printlevel(root->left, i-1);
+            printlevel(root->right, i-1);
+        }
+    }
+
+==> Array of size 2n+2, 2 occurences of n numbers, find x and y.
+    Approach:
+    1. Calculate xor of each number in the array.
+    2. All the bits that are set in xor will be set in one non-repeating element (x or y) and not in others. So if we take any set bit of xor and divide the elements of the array in two sets – one set of elements with same bit set and another set with same bit not set. By doing so, we will get x in one set and y in another set. Now if we do XOR of all the elements in the first set, we will get the first non-repeating element, and by doing same in other sets we will get the second non-repeating element.
