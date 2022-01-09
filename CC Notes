@@ -51,7 +51,9 @@
         return a[maj_index];
     }
         
-==> To find if a number is a power of 2 or not. ceil(log2(x)) == floor(log2(x))
+==> To find if a number is a power of 2 or not:
+    ceil(log2(x)) == floor(log2(x))
+    (n&(n-1))==0
 
 ==> Two Pointers Method
     1. To find two numbers such that their sum is equal to the target.
@@ -812,3 +814,43 @@
     Approach:
     1. Calculate xor of each number in the array.
     2. All the bits that are set in xor will be set in one non-repeating element (x or y) and not in others. So if we take any set bit of xor and divide the elements of the array in two sets – one set of elements with same bit set and another set with same bit not set. By doing so, we will get x in one set and y in another set. Now if we do XOR of all the elements in the first set, we will get the first non-repeating element, and by doing same in other sets we will get the second non-repeating element.
+
+==> PRINTING LIS IN N LOGN COMLEXITY
+    1. Store indexes in tail instead of values.
+    2. Make a previous array to store the index of the last element to a num.
+
+    int l=1;
+    vector<int> tail(n);
+    vector<int> prev(n, -1);
+    
+    int lb(vector<int>& tail, int hi, int val, int a[]){
+        int lo=0, ans=-1;
+        while(lo<=hi){
+            int mid=(lo+hi)/2;
+            if(a[tail[mid]]>=val){
+                hi=mid-1;
+                ans=mid;
+            }
+            else{
+                lo=mid+1;
+            }
+        }
+        return ans;
+    }
+
+    for(int i=1; i<n; i++)
+    {
+        if(arr[i] < arr[tail[0]]){
+            tail[0]=i;
+        }
+        else if(arr[i] > arr[tail[l-1]]){
+            prev[i]=tail[l-1];
+            tail[l++]=i;
+        }
+        else{
+            int id=lb(tail, l-1, arr[i], arr);
+            prev[i]=tail[id-1];
+            tail[id]=i;
+        }
+    }
+
