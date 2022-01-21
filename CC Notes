@@ -741,7 +741,7 @@
 ==> SUBMASK ENUMERATION
     Technique to generate submasks of a given mask.
     Ex:- Submasks of 1101 are:
-        1101, 1011, 0111, 1111, 1110, 1010, 0110, 1100, 1000, 0000
+        1101, 1100, 1001, 1000, 101, 100, 1
     
     int s = m;
     while (s > 0) {
@@ -854,3 +854,38 @@
         }
     }
 
+==> BFS IN A MATRIX
+    int shortestPath(vector<vector<int>>& grid, int k) {
+        int m=grid.size(), n=grid[0].size();
+        queue<pair<int, int>> q;
+        vector<vector<int>> vis(m, vector<int>(n));
+        vector<vector<int>> lvl(m, vector<int>(n));
+
+        q.push({0,0});
+        vis[{0,0}]=1;
+        
+        int dx[]={1,-1,0,0};
+        int dy[]={0,0,1,-1};
+        
+        
+        while(!q.empty()) {
+            pair<int, int> node=q.front();
+            q.pop();
+            int x=node.first;
+            int y=node.second;
+
+            if(x==m-1 and y==n-1){
+                return lvl[x][y];
+            }
+            for(int i=0; i<4; i++){
+                int nx=x+dx[i];
+                int ny=y+dy[i];
+                if(nx>=0 and ny>=0 and nx<m and ny<n and vis[nx][ny]==0 and grid[nx][ny]==0){
+                    vis[nx][ny]=1;
+                    q.push({nx,ny});
+                    lvl[nx][ny]=1+lvl[x][y];
+                }
+            }
+        }
+        return -1;
+    }
