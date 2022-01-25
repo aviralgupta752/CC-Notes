@@ -862,7 +862,7 @@
         vector<vector<int>> lvl(m, vector<int>(n));
 
         q.push({0,0});
-        vis[{0,0}]=1;
+        vis[0][0]=1;
         
         int dx[]={1,-1,0,0};
         int dy[]={0,0,1,-1};

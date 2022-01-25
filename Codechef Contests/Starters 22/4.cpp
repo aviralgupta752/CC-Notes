@@ -44,7 +44,7 @@ int32_t main(){
         dp[n][n]=0;
         for(int i=0; i<=n; i++){
             for(int j=0; j<=n; j++){
-                if(i<n){
+                if(i<n) {
                     if(a[i]=='0'){
                         dp[i][j]=min(dp[i][j], c+solve(a, b, i+1, j, c));
                     }
@@ -52,7 +52,7 @@ int32_t main(){
                         dp[i][j]=min(dp[i][j], solve(a, b, i+1, j, c+1));
                     }
                 }
-                if(j<n){
+                if(j<n) {
                     if(b[j]=='0'){
                         dp[i][j]=min(dp[i][j], c+solve(a, b, i, j+1, c));
                     }
