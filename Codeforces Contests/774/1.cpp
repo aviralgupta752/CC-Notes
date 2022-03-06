@@ -7,12 +7,9 @@ int32_t main(){
     int t;
     cin>>t;
     while(t--){
-        int n;
-        cin>>n;
+        int n, s;
+        cin>>n>>s;
         
-        vector<int> nums(n);
-        for(int i=0; i<n; i++) {
-            cin>>nums[i];
-        }
+        cout<<s/(n*n)<<endl;
     }
 }

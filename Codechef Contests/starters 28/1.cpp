@@ -10,9 +10,12 @@ int32_t main(){
         int n;
         cin>>n;
         
-        vector<int> nums(n);
+        set<int> s={6,13,20,27,7,14,21,28};
         for(int i=0; i<n; i++) {
-            cin>>nums[i];
+            int x;
+            cin>>x;
+            s.insert(x);
         }
+        cout<<s.size()<<endl;
     }
 }

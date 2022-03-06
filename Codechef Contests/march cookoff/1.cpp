@@ -7,12 +7,10 @@ int32_t main(){
     int t;
     cin>>t;
     while(t--){
-        int n;
-        cin>>n;
-        
-        vector<int> nums(n);
-        for(int i=0; i<n; i++) {
-            cin>>nums[i];
-        }
+        int x,a,b,c;
+        cin>>x>>a>>b>>c;
+        vector<int> v={a,b,c};
+        sort(v.begin(),v.end());
+        cout<<(x-1)*v[0]+v[1]<<endl;
     }
 }

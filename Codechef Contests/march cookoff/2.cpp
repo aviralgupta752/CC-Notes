@@ -9,10 +9,14 @@ int32_t main(){
     while(t--){
         int n;
         cin>>n;
-        
         vector<int> nums(n);
+        int c=0;
         for(int i=0; i<n; i++) {
             cin>>nums[i];
+            if(nums[i]==0) {
+                c+=1;
+            }
         }
+        cout<<max(c, n-c)<<endl;
     }
 }

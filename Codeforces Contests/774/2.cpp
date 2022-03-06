@@ -14,5 +14,19 @@ int32_t main(){
         for(int i=0; i<n; i++) {
             cin>>nums[i];
         }
+        sort(nums.begin(), nums.end());
+        int i=1, j=n-1, ans=0;
+        int s1=nums[0], s2=0;
+        while(i<j) {
+            s1+=nums[i];
+            s2+=nums[j];
+            if(s2>s1){
+                ans=1;
+                break;
+            }
+            i++, j--;
+        }
+        // cout<<ans<<endl;
+        cout<<(ans?"YES":"NO")<<endl;
     }
 }
