@@ -10,12 +10,18 @@ int32_t main(){
     int t;
     cin>>t;
     while(t--){
-        int n;
-        cin>>n;
-        
-        vector<int> nums(n);
-        for(int i=0; i<n; i++) {
-            cin>>nums[i];
-        }
+        int n,B,x,y;
+        cin>>n>>B>>x>>y;
+        vector<int> a(n+1);
+        int ans=0;
+        for(int i=1; i<=n; i++) {
+            if(a[i-1]+x<=B) 
+                a[i]=a[i-1]+x;
+            else 
+                a[i]=a[i-1]-y;
+            ans+=a[i];
+            // cout<<a[i]<<" ";
+        } 
+        cout<<ans<<endl;
     }
 }
