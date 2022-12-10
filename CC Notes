@@ -110,7 +110,7 @@
     }
     int solve(int x, int y) {
         ll res = 0;
-        while(x && y)
+        while(x!=0 && y!=0)
         {
             int a = msb(x);
             int b = msb(y);
@@ -211,14 +211,17 @@
     int search(vector<int> &A, int B) {
         int n=A.size();
         int lo=0, hi=n-1;
-        while(lo<=hi){
+        while(lo<=hi)
+        {
             int mid=lo+(hi-lo)/2;
+
             if(A[mid]==B)
                 return mid;
 
             //LEFT SUBARRAY IS SORTED
             if(A[mid]>=A[lo]){
-                if(B>=A[lo] and B<A[mid])
+            
+                if(B >= A[lo] and B < A[mid])
                     hi=mid-1;
                 else
                     lo=mid+1;
@@ -681,9 +684,7 @@
         int i=1;
         while(i<m){
             if(pat[i]==pat[len]){
-                len++;
-                lps[i]=len;
-                i++;
+                lps[i++]=++len;
             }
             else{
                 if(len){
@@ -889,3 +890,54 @@
         }
         return -1;
     }
+
+==> Fenwick Tree
+    To remove the last bit of a number:     x -= x & (-x)
+
+    1. Each index stores a partial sum from index [ x - x & (-x) + 1, x]
+    2. There are two major functions:
+
+        i) Sum: Takes 1 variable and outputs the sum of the array from 1st index to ith index.
+            int sum(int x) {
+                int val=0;
+                while(x>0) {
+                    val+=bit[x];
+                    x -= x & (-x)
+                }
+            }
+
+        ii) Update: Takes 2 variable(one index and second value_to_be_added) and updates the difference to the bit.
+            Basically, 
+            int update(int x, int val) {
+                while(x<bit.size()) {
+                    bit[x]+=val;
+                    x += x & (-x)
+                }
+            }
+
+    Applications:
+        1. Modified range query
+            i) Iterate on the array and update the bit.
+            ii) Query type1: print(sum(r)-sum(l-1))
+                Query type2: updatebit(index, x-arr[i]);
+
+        2. Inversion count
+            i) Iterate on the array, 
+                inv_count += sum(n)-sum(arr[i]);
+                update(arr[i], 1);
+
+
+# Fibonacci in nlogn
+    ((1,1),(1,0)) to the power n = ((Fn+1, Fn), (Fn, Fn-1))
+    Calc pow(mat, n-1) using binary exponentation and return F[0][0];
+
+
+# Heap is a complete binary tree.
+    Complete binary tree has height of logn.
+    Array representation of complete BT does not have black spaces.
+
+    ==> If we want to add an element to the heap, we would want to follow the complete binary tree property, therefore we add this element to the last empty position.
+        Direction of change: Bottom to Top.
+
+    ==> If we remove the root of the tree, we swap the last node of the tree with the root, and do the heapify operation on the root.
+        Direction of change: Top to Bottom.

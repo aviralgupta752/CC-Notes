@@ -5,12 +5,15 @@ using namespace std;
 #define debug(nums) for(auto x:nums) cout<<x<<" "; cout<<endl;
 #define debug2(nums) for(auto x:nums) debug(x);
 
-
-
 int32_t main(){
-    int j=0;
-    for(int i=0; i<100; i++) {
-        j=j++;
+    fastio;
+    int t=1;
+    cin>>t;
+    while(t--){
+        int x, y;
+        cin>>x>>y;
+        vector<int> v={2, 2^x, 2^y};
+        sort(v.begin(), v.end());
+        debug(v);
     }
-    cout<<j<<endl;
 }
